@@ -9,19 +9,32 @@ import Foundation
 import CoreData
 
 class AddExerciseViewModel: ObservableObject {
+    
+    
+    
     @Published var category: String = ""
-    @Published var startTime: String = ""
-    @Published var duration: String = ""
-    @Published var intensity: String = ""
-
+    @Published var startTime: Date = Date()
+    @Published var duration: Int = 0
+    @Published var intensity: Int = 0
     private var viewContext: NSManagedObjectContext
-
     init(context: NSManagedObjectContext) {
         self.viewContext = context
     }
-
     func addExercise() -> Bool {
-        // TODO: Ajouter ici la logique pour créer et sauvegarder un nouvel exercice dans CoreData
-        return true
+        do {
+            try ExerciseRepository(viewContext: viewContext).addExercise(
+                category: category,
+                duration: duration,
+                intensity: intensity,
+                startDate: startTime
+            )
+            return true
+        } catch {
+            print("Erreur lors de l'ajout de l'exercice :", error)
+            print("Type d'erreur :", type(of: error))
+            print("Description :", error.localizedDescription)
+            
+            return false
+        }
     }
 }

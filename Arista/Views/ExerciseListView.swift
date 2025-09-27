@@ -17,16 +17,16 @@ struct ExerciseListView: View {
                 HStack {
                     Image(systemName: iconForCategory(exercise.category))
                     VStack(alignment: .leading) {
-                        Text(exercise.category)
+                        Text(exercise.category ?? "N/A")
                             .font(.headline)
                         Text("Durée: \(exercise.duration) min")
                             .font(.subheadline)
-                        Text(exercise.date.formatted())
+                        Text(exercise.startDate?.formatted() ?? "Date inconnue")
                             .font(.subheadline)
                         
                     }
                     Spacer()
-                    IntensityIndicator(intensity: exercise.intensity)
+                    IntensityIndicator(intensity: Int(exercise.intensity))
                 }
             }
             .navigationTitle("Exercices")
@@ -42,7 +42,7 @@ struct ExerciseListView: View {
         
     }
     
-    func iconForCategory(_ category: String) -> String {
+    func iconForCategory(_ category: String?) -> String {
         switch category {
         case "Football":
             return "sportscourt"

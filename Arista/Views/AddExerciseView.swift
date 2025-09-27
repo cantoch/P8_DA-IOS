@@ -10,15 +10,15 @@ import SwiftUI
 struct AddExerciseView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: AddExerciseViewModel
-
+    
     var body: some View {
         NavigationView {
             VStack {
                 Form {
                     TextField("Catégorie", text: $viewModel.category)
-                    TextField("Heure de démarrage", text: $viewModel.startTime)
-                    TextField("Durée (en minutes)", text: $viewModel.duration)
-                    TextField("Intensité (0 à 10)", text: $viewModel.intensity)
+                    DatePicker("Heure de démarrage", selection: $viewModel.startTime, displayedComponents: [.hourAndMinute])
+                    TextField("Durée (en minutes)", value: $viewModel.duration, format: .number)
+                    TextField("Intensité (0 à 10)", value: $viewModel.intensity, format: .number)
                 }.formStyle(.grouped)
                 Spacer()
                 Button("Ajouter l'exercice") {
@@ -26,7 +26,7 @@ struct AddExerciseView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }.buttonStyle(.borderedProminent)
-                    
+                
             }
             .navigationTitle("Nouvel Exercice ...")
             

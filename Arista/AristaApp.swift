@@ -33,6 +33,8 @@ struct AristaApp: App {
                     }
                 
             }
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
+
         }
     }
 }
