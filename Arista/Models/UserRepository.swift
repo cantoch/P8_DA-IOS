@@ -8,6 +8,10 @@
 import Foundation
 import CoreData
 
+protocol UserRepositoryProtocol {
+    func getUser() throws -> User?
+}
+
 struct UserRepository {
     
     let viewContext: NSManagedObjectContext

@@ -10,17 +10,21 @@ import CoreData
 
 class ExerciseListViewModel: ObservableObject {
     @Published var exercises = [Exercise]()
+    @Published var errorMessage: ExerciseError?
+    
     var viewContext: NSManagedObjectContext
+    
     init(context: NSManagedObjectContext) {
         self.viewContext = context
         fetchExercises()
     }
-    private func fetchExercises() {
+    func fetchExercises() {
         do {
             let data = ExerciseRepository(viewContext: viewContext)
             exercises = try data.getExercise()
         } catch {
-            
+            errorMessage = .fetchExerciseFailed
+            exercises = []
         }
     }
 }

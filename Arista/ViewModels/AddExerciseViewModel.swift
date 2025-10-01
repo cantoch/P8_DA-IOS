@@ -33,7 +33,6 @@ class AddExerciseViewModel: ObservableObject {
             print("Erreur lors de l'ajout de l'exercice :", error)
             print("Type d'erreur :", type(of: error))
             print("Description :", error.localizedDescription)
-            
             return false
         }
     }

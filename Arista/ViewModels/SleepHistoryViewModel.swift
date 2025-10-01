@@ -10,6 +10,7 @@ import CoreData
 
 class SleepHistoryViewModel: ObservableObject {
     @Published var sleepSessions = [Sleep]()
+    @Published var errorMessage: SleepError?
     
     private var viewContext: NSManagedObjectContext
     
@@ -23,7 +24,7 @@ class SleepHistoryViewModel: ObservableObject {
             let data = SleepRepository(viewContext: viewContext)
             sleepSessions = try data.getSleepSessions()
         } catch {
-            
+            errorMessage = .fetchSleepFailed
         }
     }
 }

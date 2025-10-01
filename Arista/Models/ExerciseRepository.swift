@@ -8,7 +8,12 @@
 import Foundation
 import CoreData
 
-struct ExerciseRepository {
+protocol ExerciseRepositoryProtocol {
+    func getExercise() throws -> [Exercise]
+    func addExercise(category: String, duration: Int, intensity: Int, startDate: Date) throws
+}
+
+struct ExerciseRepository: ExerciseRepositoryProtocol {
     
     let viewContext: NSManagedObjectContext
     
@@ -22,13 +27,16 @@ struct ExerciseRepository {
         return try viewContext.fetch(request)
     }
     
+    
+    
     func addExercise(category: String, duration: Int, intensity: Int, startDate: Date) throws {
-        print("context: \(viewContext)")
+        let user = try? UserRepository(viewContext: viewContext).getUser()
         let newExercise = Exercise(context: viewContext)
         newExercise.category = category
         newExercise.duration = Int64(duration)
         newExercise.intensity = Int64(intensity)
         newExercise.startDate = startDate
+        newExercise.user = user
         try viewContext.save()
     }
 }

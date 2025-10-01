@@ -13,33 +13,38 @@ struct ExerciseListView: View {
     
     var body: some View {
         NavigationView {
-            List(viewModel.exercises) { exercise in
-                HStack {
-                    Image(systemName: iconForCategory(exercise.category))
-                    VStack(alignment: .leading) {
-                        Text(exercise.category ?? "N/A")
-                            .font(.headline)
-                        Text("Durée: \(exercise.duration) min")
-                            .font(.subheadline)
-                        Text(exercise.startDate?.formatted() ?? "Date inconnue")
-                            .font(.subheadline)
-                        
-                    }
-                    Spacer()
-                    IntensityIndicator(intensity: Int(exercise.intensity))
+            List {
+                if let error = viewModel.errorMessage {
+                    Text(error.localizedDescription)
+                        .foregroundColor(.red)
+                        .font(.callout)
                 }
+                ForEach(viewModel.exercises) { exercise in
+                    HStack {
+                        Image(systemName: iconForCategory(exercise.category))
+                        VStack(alignment: .leading) {
+                            Text(exercise.category ?? "N/A").font(.headline)
+                            Text("Durée: \(exercise.duration) min").font(.subheadline)
+                            Text(exercise.startDate?.formatted() ?? "Date inconnue").font(.subheadline)
+                        }
+                        Spacer()
+                        IntensityIndicator(intensity: Int(exercise.intensity))
+                    }
+                }
+                .onAppear() {
+                    viewModel.fetchExercises()
+                }
+                .navigationTitle("Exercices")
+                .navigationBarItems(trailing: Button(action: {
+                    showingAddExerciseView = true
+                }) {
+                    Image(systemName: "plus")
+                })
             }
-            .navigationTitle("Exercices")
-            .navigationBarItems(trailing: Button(action: {
-                showingAddExerciseView = true
-            }) {
-                Image(systemName: "plus")
-            })
         }
-        .sheet(isPresented: $showingAddExerciseView) {
+        .sheet(isPresented: $showingAddExerciseView, onDismiss: {viewModel.fetchExercises()}) {
             AddExerciseView(viewModel: AddExerciseViewModel(context: viewModel.viewContext))
         }
-        
     }
     
     func iconForCategory(_ category: String?) -> String {
