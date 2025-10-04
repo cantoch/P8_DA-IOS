@@ -21,8 +21,8 @@ struct DefaultData {
         let sleepRepository = SleepRepository(viewContext: viewContext)
         if (try? userRepository.getUser()) == nil {
             let initialUser = User(context: viewContext)
-            initialUser.firstName = "Toto"
-            initialUser.lastName = "Tata"
+            initialUser.firstName = "John"
+            initialUser.lastName = "Doe"
             
             if try sleepRepository.getSleepSessions().isEmpty {
                 let sleep1 = Sleep(context: viewContext)

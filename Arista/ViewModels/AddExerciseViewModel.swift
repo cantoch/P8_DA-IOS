@@ -9,9 +9,6 @@ import Foundation
 import CoreData
 
 class AddExerciseViewModel: ObservableObject {
-    
-    
-    
     @Published var category: String = ""
     @Published var startTime: Date = Date()
     @Published var duration: Int = 0
