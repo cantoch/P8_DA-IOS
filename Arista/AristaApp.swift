@@ -33,6 +33,7 @@ struct AristaApp: App {
                     }
                 
             }
+            .accentColor(Color(hex: "52b788"))
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
 
         }

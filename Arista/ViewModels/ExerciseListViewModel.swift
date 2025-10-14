@@ -27,4 +27,16 @@ class ExerciseListViewModel: ObservableObject {
             exercises = []
         }
     }
+    
+    func removeExercise(at indexSet: IndexSet) {
+        let repository = ExerciseRepository(viewContext: viewContext)
+        indexSet.map { exercises[$0] }.forEach { exercise in
+            do {
+                try repository.deleteExercise(exercise)
+            } catch {
+                errorMessage = .deleteExerciseFailed
+            }
+        }
+        fetchExercises()
+    }
 }

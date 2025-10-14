@@ -11,6 +11,7 @@ import CoreData
 protocol ExerciseRepositoryProtocol {
     func getExercise() throws -> [Exercise]
     func addExercise(category: String, duration: Int, intensity: Int, startDate: Date) throws
+    func deleteExercise(_ exercise: Exercise) throws
 }
 
 struct ExerciseRepository: ExerciseRepositoryProtocol {
@@ -39,4 +40,10 @@ struct ExerciseRepository: ExerciseRepositoryProtocol {
         newExercise.user = user
         try viewContext.save()
     }
+    
+    func deleteExercise(_ exercise: Exercise) throws {
+        viewContext.delete(exercise)
+        try viewContext.save()
+    }
 }
+

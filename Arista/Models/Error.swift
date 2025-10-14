@@ -29,6 +29,7 @@ enum SleepError: Error, Identifiable, LocalizedError {
 enum ExerciseError: Error, Identifiable, LocalizedError {
     case fetchExerciseFailed
     case saveExerciseFailed
+    case deleteExerciseFailed
     case unknown
     
     var id : String { localizedDescription }
@@ -39,6 +40,8 @@ enum ExerciseError: Error, Identifiable, LocalizedError {
             return "Erreur lors de la récupération des exercices"
         case .saveExerciseFailed:
             return "Erreur lors de l'enregistrement de l'exercice"
+        case .deleteExerciseFailed:
+            return "Erreur lors de la suppression de l'exercice"
         case .unknown:
             return "Une erreur inattendue s'est produite"
         }

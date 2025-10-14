@@ -9,10 +9,11 @@ import Foundation
 import CoreData
 
 class AddExerciseViewModel: ObservableObject {
-    @Published var category: String = ""
+    @Published var category: String = "Football"
     @Published var startTime: Date = Date()
     @Published var duration: Int = 0
     @Published var intensity: Int = 0
+    @Published var errorMessage: String? = nil
     private var viewContext: NSManagedObjectContext
     init(context: NSManagedObjectContext) {
         self.viewContext = context

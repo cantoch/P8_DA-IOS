@@ -7,58 +7,47 @@
 
 import SwiftUI
 
+import CoreData
+
 struct SleepHistoryView: View {
     @ObservedObject var viewModel: SleepHistoryViewModel
     
     var body: some View {
-        List {
-            if let errorMessage = viewModel.errorMessage {
-                Text(errorMessage.localizedDescription)
-                    .foregroundColor(.red)
-            }
-            ForEach(viewModel.sleepSessions) { session in
-                HStack {
-                    QualityIndicator(quality: Int(session.quality))
-                        .padding()
-                    VStack(alignment: .leading) {
-                        Text("Début : \(session.startDate?.formatted() ?? "Date inconnue")")
-                        Text("Durée : \(session.duration/60) heures")
+        NavigationView {
+            ZStack {
+                LinearGradient(
+                    colors: [
+                        Color("FondPrincipal"),
+                        Color("TonSecondaire"),
+                        Color("Accent")
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+                List {
+                    if let errorMessage = viewModel.errorMessage {
+                        Text(errorMessage.localizedDescription)
+                            .foregroundColor(.red)
                     }
+                    else if viewModel.sleepSessions.isEmpty {
+                        Text("Aucun exercice enregistré pour le moment.")
+                            .foregroundColor(.secondary)
+                    }
+                    ForEach(viewModel.sleepSessions) { session in
+                        SleepRowView(session: session)
+                    }
+                    .navigationTitle("Sommeils")
                 }
+                .scrollContentBackground(.hidden)
             }
-        }
-        .navigationTitle("Historique de Sommeil")
-    }
-}
-
-struct QualityIndicator: View {
-    let quality: Int
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(qualityColor(quality), lineWidth: 5)
-                .foregroundColor(qualityColor(quality))
-                .frame(width: 30, height: 30)
-            Text("\(quality)")
-                .foregroundColor(qualityColor(quality))
-        }
-    }
-    
-    func qualityColor(_ quality: Int) -> Color {
-        switch (10-quality) {
-        case 0...3:
-            return .green
-        case 4...6:
-            return .yellow
-        case 7...10:
-            return .red
-        default:
-            return .gray
         }
     }
 }
 
 #Preview {
-    SleepHistoryView(viewModel: SleepHistoryViewModel(context: PersistenceController.preview.container.viewContext))
+    SleepHistoryView(viewModel: SleepHistoryViewModel(context: PersistenceController.shared.container.viewContext))
 }
+
+
+
