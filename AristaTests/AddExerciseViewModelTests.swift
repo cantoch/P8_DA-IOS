@@ -12,63 +12,99 @@ import Combine
 
 final class AddExerciseViewModelTests: XCTestCase {
     
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var context: NSManagedObjectContext!
+    var persistenceController: PersistenceController!
+    var viewModel: AddExerciseViewModel!
+    
+    override func setUp() {
+        super.setUp()
+        persistenceController = PersistenceController(inMemory: true)
+        context = persistenceController.container.viewContext
+        
+        //Creation d'utilisateur nécessaire pour les tests
+        let user = User(context: context)
+        user.firstName = "Test"
+        user.lastName = "User"
+        try! context.save()
+        
+        
+        viewModel = AddExerciseViewModel(context: context)
     }
     
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown() {
+        context = nil
+        persistenceController = nil
+        viewModel = nil
+        super.tearDown()
     }
     
     func test_addExercise_addsExerciseToContext() {
         
-        // Clean manually all data
-        
-        let persistenceController = PersistenceController(inMemory: true)
-        
+        // Given
         let date = Date()
-        
-        emptyEntities(context: persistenceController.container.viewContext)
-        
-        let viewModel = AddExerciseViewModel(context: persistenceController.container.viewContext)
-        
-        let expectation = XCTestExpectation(description: "fetch empty list of exercise")
         
         viewModel.category = .football
         viewModel.duration = 10
         viewModel.intensity = 5
         viewModel.startTime = date
         
-        _ = viewModel.addExercise()
+        // When
+        let success = viewModel.addExercise()
         
-        let fetchRequest: NSFetchRequest<Exercise> = Exercise.fetchRequest()
+        // Then
+        XCTAssertTrue(success)
         
-        let exercises = try! persistenceController.container.viewContext.fetch(fetchRequest)
+        let repository = ExerciseRepository(viewContext: context)
+        let exercises = try! repository.getExercise()
         
         XCTAssertEqual(exercises.count, 1)
         XCTAssertEqual(exercises.first?.category, "Football")
         XCTAssertEqual(exercises.first?.duration, 10)
         XCTAssertEqual(exercises.first?.intensity, 5)
-        
-        expectation.fulfill()
-        
-        wait(for: [expectation], timeout: 1.0)
+        XCTAssertEqual(exercises.first?.startDate, date)
     }
     
+    func test_addExercise_withDifferentCategory() {
+        // Given
+        let date = Date()
+        
+        viewModel.category = .natation
+        viewModel.duration = 45
+        viewModel.intensity = 10
+        viewModel.startTime = date
+        
+        // When
+        let success = viewModel.addExercise()
+        
+        // Then
+        XCTAssertTrue(success)
+        
+        let repository = ExerciseRepository(viewContext: context)
+        let exercises = try! repository.getExercise()
+        
+        XCTAssertEqual(exercises.count, 1)
+        XCTAssertEqual(exercises.first?.category, "Natation")
+    }
     
-    private func emptyEntities(context: NSManagedObjectContext) {
+    func test_addExercise_WithNoDuration() {
+        // Given
+        let date = Date()
         
-        let fetchRequest = Exercise.fetchRequest()
+        viewModel.category = .course
+        viewModel.duration = 0
+        viewModel.intensity = 10
+        viewModel.startTime = date
         
-        let objects = try! context.fetch(fetchRequest)
+        // When
+        let success = viewModel.addExercise()
         
-        for exercice in objects {
-            
-            context.delete(exercice)
-            
-        }
+        // Then
+        XCTAssertTrue(success)
         
-        try! context.save()
+        let repository = ExerciseRepository(viewContext: context)
+        let exercises = try! repository.getExercise()
         
+        XCTAssertEqual(exercises.count, 1)
+        XCTAssertEqual(exercises.first?.duration, 0)
     }
 }
