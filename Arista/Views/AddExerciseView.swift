@@ -27,11 +27,9 @@ struct AddExerciseView: View {
                 Form {
                     Section("Catégorie") {
                         Picker("Catégorie", selection: $viewModel.category) {
-                            Text("Football").tag("Football")
-                            Text("Natation").tag("Natation")
-                            Text("Cyclisme").tag("Cyclisme")
-                            Text("Marche").tag("Marche")
-                            Text("Course").tag("Course")
+                            ForEach (ExerciseCategory.allCases, id: \.self) { category in
+                                Text(category.rawValue).tag(category)
+                            }
                         }
                     }
                     Section("Heure de début") {
@@ -52,8 +50,7 @@ struct AddExerciseView: View {
                         HStack {
                             Spacer()
                             Button("Ajouter l'exercice") {
-                                if viewModel.category.isEmpty ||
-                                    viewModel.duration <= 0 ||
+                                if viewModel.duration <= 0 ||
                                     viewModel.intensity == 0 {
                                     viewModel.errorMessage = "Veuillez remplir tous les champs avant de valider."
                                 } else if viewModel.addExercise() {

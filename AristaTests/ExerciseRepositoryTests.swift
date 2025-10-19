@@ -130,7 +130,7 @@ final class ExerciseRepositoryTests: XCTestCase {
         user.lastName = "Doe"
         
         let data = ExerciseRepository(viewContext: persistenceController.container.viewContext)
-        try! data.addExercise(category: "Running",
+        try! data.addExercise(category: .natation,
                               duration: 120,
                               intensity: 1,
                               startDate: date)
@@ -138,7 +138,7 @@ final class ExerciseRepositoryTests: XCTestCase {
         let exercises = try! data.getExercise()
         
         XCTAssert(exercises.count == 1)
-        XCTAssert(exercises[0].category == "Running")
+        XCTAssert(exercises[0].category == "Natation")
         XCTAssert(exercises[0].duration == 120)
         XCTAssert(exercises[0].intensity == 1)
         XCTAssert(exercises[0].startDate == date)

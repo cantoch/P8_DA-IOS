@@ -26,6 +26,7 @@
 		9A1C98CB2E994BC800291EF1 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1C98CA2E994BC800291EF1 /* Color+Extensions.swift */; };
 		9A1C99022E9D63F900291EF1 /* ExerciseRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1C99012E9D63F900291EF1 /* ExerciseRowView.swift */; };
 		9A1C99042E9D95FC00291EF1 /* SleepRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1C99032E9D95FC00291EF1 /* SleepRowView.swift */; };
+		9A1C99B82EA4D5F000291EF1 /* ExerciseCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1C99B72EA4D5F000291EF1 /* ExerciseCategory.swift */; };
 		9A2A41562E8767E2004A5A33 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2A41552E8767E2004A5A33 /* UserRepository.swift */; };
 		9A2A41572E8767E2004A5A33 /* ExerciseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2A41532E8767E2004A5A33 /* ExerciseRepository.swift */; };
 		9A2A41582E8767E2004A5A33 /* SleepRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2A41542E8767E2004A5A33 /* SleepRepository.swift */; };
@@ -77,6 +78,7 @@
 		9A1C98CA2E994BC800291EF1 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		9A1C99012E9D63F900291EF1 /* ExerciseRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseRowView.swift; sourceTree = "<group>"; };
 		9A1C99032E9D95FC00291EF1 /* SleepRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepRowView.swift; sourceTree = "<group>"; };
+		9A1C99B72EA4D5F000291EF1 /* ExerciseCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCategory.swift; sourceTree = "<group>"; };
 		9A2A41522E8767E2004A5A33 /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultData.swift; sourceTree = "<group>"; };
 		9A2A41532E8767E2004A5A33 /* ExerciseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseRepository.swift; sourceTree = "<group>"; };
 		9A2A41542E8767E2004A5A33 /* SleepRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepRepository.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				9A2A41542E8767E2004A5A33 /* SleepRepository.swift */,
 				9A2A41552E8767E2004A5A33 /* UserRepository.swift */,
 				9AE91AA72E88AE980016F95E /* Error.swift */,
+				9A1C99B72EA4D5F000291EF1 /* ExerciseCategory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				53E5876F2B236DBC00E4EF99 /* AddExerciseViewModel.swift in Sources */,
 				9AE91AA82E88AE980016F95E /* Error.swift in Sources */,
 				53E587692B23616A00E4EF99 /* UserDataViewModel.swift in Sources */,
+				9A1C99B82EA4D5F000291EF1 /* ExerciseCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

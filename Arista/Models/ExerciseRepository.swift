@@ -10,7 +10,7 @@ import CoreData
 
 protocol ExerciseRepositoryProtocol {
     func getExercise() throws -> [Exercise]
-    func addExercise(category: String, duration: Int, intensity: Int, startDate: Date) throws
+    func addExercise(category: ExerciseCategory, duration: Int, intensity: Int, startDate: Date) throws
     func deleteExercise(_ exercise: Exercise) throws
 }
 
@@ -28,12 +28,10 @@ struct ExerciseRepository: ExerciseRepositoryProtocol {
         return try viewContext.fetch(request)
     }
     
-    
-    
-    func addExercise(category: String, duration: Int, intensity: Int, startDate: Date) throws {
+    func addExercise(category: ExerciseCategory, duration: Int, intensity: Int, startDate: Date) throws {
         let user = try? UserRepository(viewContext: viewContext).getUser()
         let newExercise = Exercise(context: viewContext)
-        newExercise.category = category
+        newExercise.category = category.rawValue
         newExercise.duration = Int64(duration)
         newExercise.intensity = Int64(intensity)
         newExercise.startDate = startDate

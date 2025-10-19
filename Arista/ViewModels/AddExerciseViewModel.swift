@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 class AddExerciseViewModel: ObservableObject {
-    @Published var category: String = "Football"
+    @Published var category: ExerciseCategory = .football
     @Published var startTime: Date = Date()
     @Published var duration: Int = 0
     @Published var intensity: Int = 0

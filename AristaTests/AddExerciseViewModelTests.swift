@@ -34,12 +34,12 @@ final class AddExerciseViewModelTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "fetch empty list of exercise")
         
-        viewModel.category = "Football"
+        viewModel.category = .football
         viewModel.duration = 10
         viewModel.intensity = 5
         viewModel.startTime = date
         
-        viewModel.addExercise()
+        _ = viewModel.addExercise()
         
         let fetchRequest: NSFetchRequest<Exercise> = Exercise.fetchRequest()
         

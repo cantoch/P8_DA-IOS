@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import CoreData
-
 struct SleepHistoryView: View {
     @ObservedObject var viewModel: SleepHistoryViewModel
     
