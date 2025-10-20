@@ -39,7 +39,6 @@ final class AddExerciseViewModelTests: XCTestCase {
     }
     
     func test_addExercise_addsExerciseToContext() {
-        
         // Given
         let date = Date()
         
@@ -106,5 +105,46 @@ final class AddExerciseViewModelTests: XCTestCase {
         
         XCTAssertEqual(exercises.count, 1)
         XCTAssertEqual(exercises.first?.duration, 0)
+    }
+    
+    func test_addExercise_WithNoIntensity() {
+        // Given
+        let date = Date()
+        
+        viewModel.category = .course
+        viewModel.duration = 45
+        viewModel.intensity = 0
+        viewModel.startTime = date
+        
+        // When
+        let success = viewModel.addExercise()
+        
+        // Then
+        XCTAssertTrue(success)
+        
+        let repository = ExerciseRepository(viewContext: context)
+        let exercises = try! repository.getExercise()
+        
+        XCTAssertEqual(exercises.count, 1)
+        XCTAssertEqual(exercises.first?.intensity, 0)
+    }
+    
+    func test_addExercise_WithNoStartTime() {
+        // Given
+        viewModel.category = .course
+        viewModel.duration = 45
+        viewModel.intensity = 10
+        viewModel.startTime = nil
+        
+        // When
+        let success = viewModel.addExercise()
+        
+        // Then
+        XCTAssertTrue(success)
+        
+        let repository = ExerciseRepository(viewContext: context)
+        let exercises = try! repository.getExercise()
+        
+        XCTAssertEqual(exercises.count, 1) 
     }
 }

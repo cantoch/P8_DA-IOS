@@ -12,7 +12,7 @@ protocol UserRepositoryProtocol {
     func getUser() throws -> User?
 }
 
-struct UserRepository {
+struct UserRepository: UserRepositoryProtocol {
     
     let viewContext: NSManagedObjectContext
     

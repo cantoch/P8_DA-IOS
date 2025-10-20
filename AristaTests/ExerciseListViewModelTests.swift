@@ -14,6 +14,54 @@ final class ExerciseListViewModelTests: XCTestCase {
     
     var cancellables = Set<AnyCancellable>()
     
+    private func emptyEntities(context: NSManagedObjectContext) {
+        
+        let fetchRequest = Exercise.fetchRequest()
+        
+        let objects = try! context.fetch(fetchRequest)
+        
+        
+        
+        for exercice in objects {
+            
+            context.delete(exercice)
+            
+        }
+        
+        
+        
+        try! context.save()
+        
+    }
+    
+    private func addExercice(context: NSManagedObjectContext, category: String, duration: Int, intensity: Int, startDate: Date, userFirstName: String, userLastName: String) {
+        
+        let newUser = User(context: context)
+        
+        newUser.firstName = userFirstName
+        
+        newUser.lastName = userLastName
+        
+        try! context.save()
+        
+        
+        
+        let newExercise = Exercise(context: context)
+        
+        newExercise.category = category
+        
+        newExercise.duration = Int64(duration)
+        
+        newExercise.intensity = Int64(intensity)
+        
+        newExercise.startDate = startDate
+        
+        newExercise.user = newUser
+        
+        try! context.save()
+        
+    }
+    
     override func setUpWithError() throws {
         
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -189,54 +237,43 @@ final class ExerciseListViewModelTests: XCTestCase {
         
     }
     
-    
-    
-    private func emptyEntities(context: NSManagedObjectContext) {
+    func test_removeExercise_removesExercise() {
+        // Given
+        let persistenceController = PersistenceController(inMemory: true)
+        let context = persistenceController.container.viewContext
+        emptyEntities(context: context)
         
-        let fetchRequest = Exercise.fetchRequest()
+        addExercice(context: persistenceController.container.viewContext,
+                    category: "Football",
+                    duration: 10,
+                    intensity: 5,
+                    startDate: Date(),
+                    userFirstName: "Donnie",
+                    userLastName: "Brasco")
         
-        let objects = try! context.fetch(fetchRequest)
+        let viewModel = ExerciseListViewModel(context: context)
         
+        // When
+        viewModel.removeExercise(at: IndexSet(integer: 0))
         
-        
-        for exercice in objects {
-            
-            context.delete(exercice)
-            
-        }
-        
-        
-        
-        try! context.save()
-        
+        // Then
+        let fetchedExercises = try! context.fetch(Exercise.fetchRequest())
+        XCTAssertEqual(fetchedExercises.count, 0)
     }
     
-    private func addExercice(context: NSManagedObjectContext, category: String, duration: Int, intensity: Int, startDate: Date, userFirstName: String, userLastName: String) {
+    func test_removeExercise_WithInvalidIndex_DoesNotCrash() {
+        // Given
+        let persistenceController = PersistenceController(inMemory: true)
+        let context = persistenceController.container.viewContext
+        emptyEntities(context: context)
         
-        let newUser = User(context: context)
+        let viewModel = ExerciseListViewModel(context: context)
         
-        newUser.firstName = userFirstName
+        // When
+        viewModel.removeExercise(at: IndexSet(integer: 0))
         
-        newUser.lastName = userLastName
-        
-        try! context.save()
-        
-        
-        
-        let newExercise = Exercise(context: context)
-        
-        newExercise.category = category
-        
-        newExercise.duration = Int64(duration)
-        
-        newExercise.intensity = Int64(intensity)
-        
-        newExercise.startDate = startDate
-        
-        newExercise.user = newUser
-        
-        try! context.save()
-        
+        // Then
+        XCTAssertTrue(viewModel.exercises.isEmpty)
+        XCTAssertNil(viewModel.errorMessage)
     }
-    
 }

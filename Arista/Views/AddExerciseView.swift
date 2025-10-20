@@ -33,7 +33,12 @@ struct AddExerciseView: View {
                         }
                     }
                     Section("Heure de début") {
-                        DatePicker("Heure de début", selection: $viewModel.startTime, displayedComponents: .hourAndMinute)
+                        DatePicker("Heure de début",
+                                   selection: Binding(
+                                    get: { viewModel.startTime ?? Date() },
+                                    set: { viewModel.startTime = $0 }
+                                   ),
+                                   displayedComponents: .hourAndMinute)
                     }
                     Section("Durée") {
                         Stepper("\(viewModel.duration) min", value: $viewModel.duration, in: 10...180, step: 10)

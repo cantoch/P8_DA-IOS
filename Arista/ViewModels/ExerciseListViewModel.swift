@@ -30,12 +30,14 @@ class ExerciseListViewModel: ObservableObject {
     
     func removeExercise(at indexSet: IndexSet) {
         let repository = ExerciseRepository(viewContext: viewContext)
-        indexSet.map { exercises[$0] }.forEach { exercise in
-            do {
-                try repository.deleteExercise(exercise)
-            } catch {
-                errorMessage = .deleteExerciseFailed
-            }
+        
+        guard let index = indexSet.first, exercises.indices.contains(index) else {
+            return
+        }
+        do {
+            try repository.deleteExercise(exercises[index])
+        } catch {
+            errorMessage = .deleteExerciseFailed
         }
         fetchExercises()
     }

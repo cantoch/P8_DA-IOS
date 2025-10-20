@@ -30,14 +30,17 @@ final class SleepRepositoryTests: XCTestCase {
     }
     
     func test_getSleepSessions_returnsEmptyArray_whenNoSessions() {
+        // Given
+        // Aucune session
         
+        // When
         let sessions = try! data.getSleepSessions()
         
+        // Then
         XCTAssertTrue(sessions.isEmpty == true)
     }
     
     func test_getSleepSessions_returnsOneSession_whenOneSessionExists() {
-        
         // Given
         let user = User(context: context)
         user.firstName = "Test"
