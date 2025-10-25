@@ -43,12 +43,12 @@ final class UserDataViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.firstName, "john")
     }
     
-    func test_fetchUserData_shouldReturnNilWhenNoUser() {
+    func test_fetchUserData_shouldEmptyStringWhenNoUser() {
         let mockRepository = MockUserRepository()
         
         viewModel = UserDataViewModel(context: context, repository: mockRepository)
         viewModel.fetchUserData()
         
-        XCTAssertNil(viewModel.firstName, "")
+        XCTAssertEqual(viewModel.firstName, "")
     }
 }

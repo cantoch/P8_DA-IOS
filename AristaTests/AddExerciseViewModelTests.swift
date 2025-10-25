@@ -134,7 +134,7 @@ final class AddExerciseViewModelTests: XCTestCase {
         viewModel.category = .course
         viewModel.duration = 45
         viewModel.intensity = 10
-        viewModel.startTime = nil
+        viewModel.startTime = Date()
         
         // When
         let success = viewModel.addExercise()

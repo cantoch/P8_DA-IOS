@@ -10,17 +10,15 @@ import CoreData
 
 class AddExerciseViewModel: ObservableObject {
     @Published var category: ExerciseCategory = .football
-    @Published var startTime: Date? = Date()
+    @Published var startTime: Date = Date()
     @Published var duration: Int = 0
     @Published var intensity: Int = 0
     @Published var errorMessage: String? = nil
     
     private var viewContext: NSManagedObjectContext
-    private var repository: ExerciseRepositoryProtocol
     
-    init(context: NSManagedObjectContext, repository: ExerciseRepositoryProtocol) {
+    init(context: NSManagedObjectContext) {
         self.viewContext = context
-        self.repository = repository
     }
     
     func addExercise() -> Bool {
@@ -29,7 +27,7 @@ class AddExerciseViewModel: ObservableObject {
                 category: category,
                 duration: duration,
                 intensity: intensity,
-                startDate: startTime ?? Date()
+                startDate: startTime
             )
             return true
         } catch {

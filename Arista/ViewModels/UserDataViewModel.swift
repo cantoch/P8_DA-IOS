@@ -9,8 +9,8 @@ import Foundation
 import CoreData
 
 class UserDataViewModel: ObservableObject {
-    @Published var firstName: String? = ""
-    @Published var lastName: String? = ""
+    @Published var firstName: String = ""
+    @Published var lastName: String = ""
     
     private var viewContext: NSManagedObjectContext
     private var repository: UserRepositoryProtocol
@@ -22,11 +22,11 @@ class UserDataViewModel: ObservableObject {
     
     func fetchUserData() {
         guard let user = try? repository.getUser() else {
-            firstName = nil
-            lastName = nil
+            firstName = ""
+            lastName = ""
             return
         }
-        firstName = user.firstName
-        lastName = user.lastName
+        firstName = user.firstName ?? ""
+        lastName = user.lastName ?? ""
     }
 }
